@@ -16,5 +16,4 @@ cargo_sources = files(
 )
 
 subdir('src')
-# subdir('shell_providers')
 subdir('webextension')
