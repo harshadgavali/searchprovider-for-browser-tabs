@@ -19,3 +19,5 @@ declare interface GjsGiImports {
     St: typeof import("@gi-types/st1"),
     Shell: typeof import("@gi-types/shell0"),
 }
+
+declare const global: import('@gi-types/shell0').Global;

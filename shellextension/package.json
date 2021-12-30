@@ -1,8 +1,14 @@
 {
   "name": "shellextension",
   "version": "1.0.0",
-  "main": "index.js",
+  "source": "build/extension.js",
+  "main": "dist/extension.js",
   "license": "MIT",
+  "scripts": {
+    "build": "rollup --config rollup.config.js",
+    "preinstall": "gnome-extensions pack --force dist",
+    "install": "gnome-extensions install --force *.shell-extension.zip"
+  },
   "devDependencies": {
     "@gi-types/base-types": "^1.0.0",
     "@gi-types/clutter8": "^8.0.0",
@@ -14,10 +20,14 @@
     "@gi-types/meta8": "^8.0.0",
     "@gi-types/shell0": "^0.1.0",
     "@gi-types/st1": "^1.0.0",
+    "@rollup/plugin-typescript": "^8.3.0",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "eslint": "^8.1.0",
+    "rollup": "^2.62.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "tslib": "^2.3.1",
     "typescript": "^4.5.2"
   }
 }

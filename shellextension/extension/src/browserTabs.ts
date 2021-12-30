@@ -9,45 +9,34 @@ const BASE_PATH = "/org/me/SearchProvider";
 const SEARCH_PROVIDERS_SCHEMA = 'org.gnome.desktop.search-providers';
 
 export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvider2 {
-    constructor(appInfo: typeof Gio.DesktopAppInfo, dbusName: string, dbusPath: string, autoStart: boolean) {
+    constructor(appInfo: typeof Gio.DesktopAppInfo.prototype, dbusName: string, dbusPath: string, autoStart: boolean) {
         super(appInfo, dbusName, dbusPath, autoStart);
 
         this.canLaunchSearch = false;
     }
 
-    _getResultsFinished(results, error, callback) {
-        log(`[Debug]::_getResultsFinished: ${results}, ${error}`);
+    override _getResultsFinished(results: unknown[], error: typeof Gio.DBusError.prototype, callback: (results: unknown[]) => void): void {
         if (error) {
-            if (error.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED))
-                return;
-
-            log('[Debug]:: Received error from D-Bus search provider %s: %s'.format(this.id, String(error)));
             callback([]);
             return;
         }
-
         super._getResultsFinished(results, error, callback);
     }
 
-    _getResultMetasFinished(results, error, callback) {
-        log(`[Debug]::_getResultMetasFinished: ${results}, ${error}`);
+    override _getResultMetasFinished(results: unknown[], error: typeof Gio.DBusError.prototype, callback: (results: unknown[]) => void): void {
         if (error) {
-            // if (!error.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED)) 
-            log('[Debug]:: Received error from D-Bus search provider %s during GetResultMetas: %s'.format(this.id, String(error)));
-            // }
             callback([]);
             return;
         }
         super._getResultMetasFinished(results, error, callback);
     }
 }
-function getProvider(app, appName) {
+function getProvider(app: typeof Shell.App.prototype, appName: string) {
     if (!app)
         return;
     const appInfo = app.get_app_info();
     appInfo.get_description = () => `List of tabs open in ${appInfo}`;
     appInfo.get_name = () => `${appName} Tabs`;
-    // appInfo.get_id = () => `arcmenu.open-browsertabs.${appName}`;
 
     return new WebBrowserTabSearchProvider(
         appInfo,
@@ -57,43 +46,39 @@ function getProvider(app, appName) {
     );
 }
 
-var BrowserTabExtension = class {
-    private _searchSettings: typeof Gio.Settings;
+export class BrowserTabExtension implements ISubExtension {
+    private _searchSettings: typeof Gio.Settings.prototype;
+    private _loadRemoteSearchProviders: (searchSettings: typeof Gio.Settings.prototype, callback: (providers: (typeof RemoteSearch.RemoteSearchProvider2.prototype)[]) => void) => void;
 
     constructor() {
         this._searchSettings = new Gio.Settings({ schema_id: SEARCH_PROVIDERS_SCHEMA });
-        this.loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
-    }
+        this._loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
 
-    enable() {
         Util.spawn(["/usr/bin/killall", "searchprovider-connector"]);
 
         const appSystem = Shell.AppSystem.get_default();
         const extensionThis = this;
 
         RemoteSearch.loadRemoteSearchProviders = function (searchSettings, callback) {
-            log('[Debug]::loadRemoteSearchProviders');
-            extensionThis.loadRemoteSearchProviders(searchSettings, results => {
-                log(`[Debug]::loadRemoteSearchProviders results: ${results.length}`);
-                const providers = [
-                    getProvider(appSystem.lookup_app('firefox.desktop'), 'Firefox'),
+            extensionThis._loadRemoteSearchProviders(searchSettings, results => {
+                [
                     getProvider(appSystem.lookup_app('org.chromium.Chromium.desktop'), 'Chromium'),
-                ];
-                results.unshift(...providers.filter(p => p !== undefined));
-                log(`[Debug]::loadRemoteSearchProviders results: ${results.length}`);
+                    getProvider(appSystem.lookup_app('firefox.desktop'), 'Firefox'),
+                ].forEach(provider => {
+                    if (provider)
+                        results.unshift(provider);
+                });
+
                 callback(results);
             });
         };
 
         this._reloadProviders();
-
     }
 
-    disable() {
-        RemoteSearch.loadRemoteSearchProviders = this.loadRemoteSearchProviders;
-
+    destroy() {
+        RemoteSearch.loadRemoteSearchProviders = this._loadRemoteSearchProviders;
         this._reloadProviders();
-
         Util.spawn(["/usr/bin/killall", "searchprovider-connector"]);
     }
 

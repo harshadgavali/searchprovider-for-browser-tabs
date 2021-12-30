@@ -1,26 +1,22 @@
 {
-  "compilerOptions": {
-      "strict": true,
-      "typeRoots": [
-          "./node_modules/@gi-types",
-      ],
-      "types": [
-          "gjs-environment",
-          "base-types",
-        //   "gtk4-types",
-      ],
-      "lib": [
-          "ES2019"
-      ],
-      "allowSyntheticDefaultImports": true,
-      "rootDir": "./src",
-      "outDir": "./build",
-      "target": "ES6",
-      "moduleResolution": "Node",
-  },
-  "include": [
-      "src/**/*.ts",
-      "@types/**/*.d.ts",
-      "node_modules/@types/node/console.d.ts",
-  ]
+    "compilerOptions": {
+        "strict": true,
+        "typeRoots": [
+            "./node_modules/@gi-types",
+        ],
+        "types": [
+            "gjs-environment",
+            "base-types",
+            //   "gtk4-types",
+        ],
+        "lib": [
+            "ES2019"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "rootDir": "./extension",
+        "outDir": "./dist",
+        "target": "ES6",
+        "moduleResolution": "Node",
+        "noImplicitOverride": true,
+    },
 }

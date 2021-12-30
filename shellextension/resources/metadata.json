@@ -1,0 +1,10 @@
+{
+    "name": "Browser tabs",
+    "description": "Search provider for browser tabs",
+    "uuid": "browser-tabs",
+    "shell-version": [
+        "40",
+        "41",
+        "42"
+    ]
+}
