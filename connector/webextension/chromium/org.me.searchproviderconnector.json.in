@@ -1,0 +1,7 @@
+{
+    "name": "@appAlphaNumId@",
+    "description": "My Application",
+    "path": "@connectorexepath@",
+    "type": "stdio",
+    "allowed_origins": ["chrome-extension://kgjkdpfdaiopmjbajpkhcjebjodgohkk/", "chrome-extension://nmfjaaiffpfflgaohcfjabiilgdgnhhk/"]
+  }

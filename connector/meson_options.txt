@@ -1,0 +1,1 @@
+option('home', type: 'string', value: '', description: 'Location of user\'s home directory.')

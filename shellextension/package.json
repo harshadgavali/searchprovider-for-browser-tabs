@@ -1,0 +1,23 @@
+{
+  "name": "shellextension",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@gi-types/base-types": "^1.0.0",
+    "@gi-types/clutter8": "^8.0.0",
+    "@gi-types/gio2": "^2.68.0",
+    "@gi-types/gjs-environment": "^1.0.0",
+    "@gi-types/glib2": "^2.68.0",
+    "@gi-types/gobject2": "^2.68.0",
+    "@gi-types/gtk4": "^4.2.0",
+    "@gi-types/meta8": "^8.0.0",
+    "@gi-types/shell0": "^0.1.0",
+    "@gi-types/st1": "^1.0.0",
+    "@types/node": "^16.11.7",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^8.1.0",
+    "typescript": "^4.5.2"
+  }
+}
