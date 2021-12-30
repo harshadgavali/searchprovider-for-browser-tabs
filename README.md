@@ -1,0 +1,1 @@
+# searchprovider-for-browser-tabs
