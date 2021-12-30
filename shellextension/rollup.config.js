@@ -1,6 +1,7 @@
 
 import typescript from '@rollup/plugin-typescript';
 import copy from 'rollup-plugin-copy';
+
 const buildPath = 'dist';
 
 export default [
@@ -22,7 +23,6 @@ export default [
             copy({
                 targets: [
                     { src: './resources/metadata.json', dest: `${buildPath}` },
-                    // { src: './resources/schemas', dest: `${buildPath}` },
                 ],
             }),
         ],

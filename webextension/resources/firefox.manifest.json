@@ -11,7 +11,11 @@
     },
     "permissions": [
         "tabs",
-        "nativeMessaging",
-        "history"
-    ]
+        "nativeMessaging"
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "searchproviderconnector@searchproviderconnector"
+        }
+    }
 }
