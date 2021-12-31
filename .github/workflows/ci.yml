@@ -19,7 +19,7 @@ jobs:
         id: zipName
         run: |
           echo "::set-output name=tagname::${GITHUB_REF#refs/*/}"
-          echo "::set-output name=filename::'gnome-tabsearchprovider-connector.$(date --iso-8601).$(git rev-parse --short HEAD).zip'"
+          echo "::set-output name=filename::gnome-tabsearchprovider-connector.$(date --iso-8601).$(git rev-parse --short HEAD).zip"
 
       - name: Install dependencies
         run: |
