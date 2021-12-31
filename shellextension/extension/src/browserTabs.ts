@@ -32,7 +32,7 @@ export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvid
         super._getResultMetasFinished(results, error, callback);
     }
 }
-function getProvider(app: typeof Shell.App.prototype, appName: string) {
+function getProvider(app: typeof Shell.App.prototype | undefined, appName: string) {
     if (!app)
         return;
     const appInfo = app.get_app_info();

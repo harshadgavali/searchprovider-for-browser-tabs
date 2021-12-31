@@ -6,7 +6,7 @@
 Name:           tabsearchproviderconnector
 Version:        0.1.0~beta
 Release:        0.1%{?dist}
-Summary:        A simple hello script
+Summary:        Browser tab search provider for GNOME
 
 License:        MIT
 URL:            https://github.com/harshadgavali/%{gitrepo_name}
@@ -20,6 +20,7 @@ Requires:       dbus-daemon
 
 %description
 Host connector for browser tab search provider for GNOME
+See ${url} for information for installing shell and browser extension
 
 %prep
 %autosetup -v -n %{gitrepo_name}-%{tarball_version}/%{subpackage_name}
