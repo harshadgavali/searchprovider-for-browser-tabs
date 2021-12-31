@@ -45,9 +45,11 @@ fn main() -> zbus::Result<()> {
             start_dbus_server(WebSearchProvider::new("Firefox", "firefox"))?;
         }
 
-        _ => {
+        2 => {
             start_dbus_server(WebSearchProvider::new("Chromium", "org.chromium.Chromium"))?;
         }
+
+        _ => {}
     };
 
     Ok(())

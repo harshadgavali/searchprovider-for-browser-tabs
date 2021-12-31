@@ -3,9 +3,9 @@ name: Connector CI
 on:
   push:
     branches:
-      - "main"
+      - main
     paths:
-      - "connector"
+      - "connector/**"
 
 jobs:
   Build:
