@@ -31,6 +31,13 @@ sudo dnf install tabsearchproviderconnector
 ### From releases
 * Download zip of latest release from [here](https://github.com/harshadgavali/searchprovider-for-browser-tabs/releases/)
 ```
+# first verify what files zip has
+zip -sf gnome-tabsearchprovider-connector.connector-*.zip
+# output should have following files
+# - etc/opt/chrome/native-messaging-hosts/com.github.harshadgavali.tabsearchproviderconnector.json
+# - usr/bin/com.github.harshadgavali.tabsearchproviderconnector
+# - usr/lib64/mozilla/native-messaging-hosts/com.github.harshadgavali.tabsearchproviderconnector.json
+
 sudo unzip -o -d / gnome-tabsearchprovider-connector.connector-*.zip
 ```
 
@@ -49,6 +56,6 @@ with ids of browser addons
   * /usr/lib64/mozilla/native-messaging-hosts/
 
 #### After installation
-* Oopen browser
+* Open browser
 * Start searching with `Super` key
   * Browser tabs(except active tabs) will appear in search results
