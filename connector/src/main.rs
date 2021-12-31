@@ -29,7 +29,7 @@ fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
         RequestNameFlags::AllowReplacement | RequestNameFlags::ReplaceExisting,
     )?;
 
-    if let Some(_) = (dbus_proxy.receive_name_lost()?).next() {
+    if (dbus_proxy.receive_name_lost()?).next().is_some() {
         return Ok(());
     }
 

@@ -24,11 +24,16 @@ jobs:
         run: |
           cargo clippy -- -D warnings
 
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y meson ninja-build
+
       - name: Build
         working-directory: ${{ env.working-directory }}
         run: |
           export GIT_HEAD_SHA=$(git rev-parse HEAD)
-          meson --prefix=$PWD/dist build -Dbuildtype=Release
+          meson --prefix=$PWD/dist --buildtype=release build
           ninja -C build install
 
       - name: Create Zip
