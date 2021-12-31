@@ -13,6 +13,12 @@ meson --prefix=/usr build
 ninja -C build install
 ```
 
+#### If you installed browser addons in different way
+* Then update manifest in following locations 
+with ids of browser addons
+* /etc/opt/chrome/native-messaging-hosts/
+* /usr/lib64/mozilla/native-messaging-hosts/
+
 ### shellextension
 ```
 cd shellextension

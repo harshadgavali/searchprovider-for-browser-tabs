@@ -55,4 +55,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           automatic_release_tag: ${{ steps.zipName.outputs.tagname }}
-          path: ${{ env.working-directory }}/dist/${{ steps.zipName.outputs.filename }}
+          files: ${{ env.working-directory }}/dist/${{ steps.zipName.outputs.filename }}
