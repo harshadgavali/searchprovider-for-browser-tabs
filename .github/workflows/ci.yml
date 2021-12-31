@@ -36,7 +36,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: |
           export GIT_HEAD_SHA=$(git rev-parse HEAD)
-          meson --prefix=$PWD/dist --buildtype=release build
+          meson --prefix=$PWD/dist/usr --sysconfdir=$PWD/dist/etc --buildtype=release build
           ninja -C build install
 
       - name: Create Zip

@@ -17,42 +17,42 @@ jobs:
         id: zipName
         run: |
           echo "::set-output name=tagname::${GITHUB_REF#refs/*/}"
-          echo "::set-output name=filename::'gnome-tabsearchprovider-connector.${GITHUB_REF#refs/*/}.zip'"
+          echo "::set-output name=filename::gnome-tabsearchprovider-connector.${GITHUB_REF#refs/*/}.zip"
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --user meson ninja
 
       - name: Clippy
         working-directory: ${{ env.working-directory }}
         run: |
+          export CARGO_TARGET_DIR=build/target
+          export CARGO_HOME=build/cargo-home
           cargo clippy -- -D warnings
-
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y meson ninja-build
 
       - name: Build
         working-directory: ${{ env.working-directory }}
         run: |
           export GIT_HEAD_SHA=$(git rev-parse HEAD)
-          meson --prefix=$PWD/dist --buildtype=release build
+          meson --prefix=$PWD/dist/usr --sysconfdir=$PWD/dist/etc --buildtype=release build
           ninja -C build install
 
       - name: Create Zip
         working-directory: ${{ env.working-directory }}
         run: |
-          zip -r "${{ steps.zipName.outputs.filename }}" zip
+          cd dist
+          zip -r ${{ steps.zipName.outputs.filename }} .
 
       - name: Upload archive artifact
         uses: actions/upload-artifact@v2
         with:
-          working-directory: ${{ env.working-directory }}
           name: ${{ steps.zipName.outputs.filename }}
-          path: ${{ steps.zipName.outputs.filename }}
+          path: ${{ env.working-directory }}/dist/${{ steps.zipName.outputs.filename }}
 
       - name: Automatic Releases
         uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
-          working-directory: ${{ env.working-directory }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           automatic_release_tag: ${{ steps.zipName.outputs.tagname }}
-          files: ${{ steps.zipName.outputs.filename }}
+          path: ${{ env.working-directory }}/dist/${{ steps.zipName.outputs.filename }}
