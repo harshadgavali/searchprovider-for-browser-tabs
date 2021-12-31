@@ -9,6 +9,8 @@ jobs:
   Release:
     if: github.event.base_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./connector
     steps:
       - uses: actions/checkout@v2
       - name: Set variables
@@ -18,29 +20,33 @@ jobs:
           echo "::set-output name=filename::'gnome-tabsearchprovider-connector.${GITHUB_REF#refs/*/}.zip'"
 
       - name: Clippy
+        working-directory: ${{ env.workking-directory }}
         run: |
           cargo clippy -- -D warnings
 
       - name: Build
+        working-directory: ${{ env.workking-directory }}
         run: |
           export GIT_HEAD_SHA=$(git rev-parse HEAD)
           meson --prefix=$PWD/dist build -Dbuildtype=Release
           ninja -C build install
 
       - name: Create Zip
+        working-directory: ${{ env.workking-directory }}
         run: |
-          cd dist
-          zip -r "${{ steps.zipName.outputs.filename }}" .
+          zip -r "${{ steps.zipName.outputs.filename }}" zip
 
       - name: Upload archive artifact
         uses: actions/upload-artifact@v2
         with:
+          working-directory: ${{ env.workking-directory }}
           name: ${{ steps.zipName.outputs.filename }}
           path: ${{ steps.zipName.outputs.filename }}
 
       - name: Automatic Releases
         uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
+          working-directory: ${{ env.workking-directory }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
           automatic_release_tag: ${{ steps.zipName.outputs.tagname }}
