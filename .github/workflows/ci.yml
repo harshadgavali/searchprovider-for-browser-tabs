@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - github-ci
     # paths:
     #   - "connector/**"
 
@@ -27,8 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt update
-          sudo apt install -y meson ninja-build
+          python3 -m pip install --user meson
 
       - name: Build
         working-directory: ${{ env.working-directory }}
