@@ -1,0 +1,41 @@
+name: Connector CI
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "connector"
+
+jobs:
+  Build:
+    if: github.event.base_ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set variables
+        id: zipName
+        run: |
+          echo "::set-output name=tagname::${GITHUB_REF#refs/*/}"
+          echo "::set-output name=filename::'gnome-tabsearchprovider-connector.${GITHUB_REF#refs/*/}.zip'"
+
+      - name: Clippy
+        run: |
+          cargo clippy -- -D warnings
+
+      - name: Build
+        run: |
+          export GIT_HEAD_SHA=$(git rev-parse HEAD)
+          meson --prefix=$PWD/dist build -Dbuildtype=Release
+          ninja -C build install
+
+      - name: Create Zip
+        run: |
+          cd dist
+          zip -r "${{ steps.zipName.outputs.filename }}" .
+
+      - name: Upload archive artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.zipName.outputs.filename }}
+          path: ${{ steps.zipName.outputs.filename }}
