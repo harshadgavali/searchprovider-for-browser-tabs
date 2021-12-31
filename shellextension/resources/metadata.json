@@ -1,7 +1,7 @@
 {
     "name": "Browser tabs",
     "description": "Search provider for browser tabs",
-    "uuid": "browser-tabs",
+    "uuid": "browser-tabs@com.github.harshadgavali",
     "shell-version": [
         "40",
         "41",

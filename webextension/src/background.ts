@@ -1,5 +1,5 @@
 const Constants = {
-    NATIVE_APPID: "org.me.searchproviderconnector",
+    NATIVE_APPID: "com.github.harshadgavali.tabsearchproviderconnector",
 };
 
 const State = {
@@ -33,7 +33,7 @@ interface IActiveTabRequestData {
 
 function sendResponse(message: IResponse) {
     try {
-        console.log(`WebExtension SEND: ${JSON.stringify(message)}`);
+        // console.log(`WebExtension SEND: ${JSON.stringify(message)}`);
 
         if (State.port)
             State.port.postMessage(message);
@@ -92,7 +92,7 @@ function handlePostRquest(req: IRequest) {
 
 function onRequestReceived(request: IRequest) {
     try {
-        console.log(`WebExtension RECV: ${JSON.stringify(request)}`);
+        // console.log(`WebExtension RECV: ${JSON.stringify(request)}`);
         switch (request.type) {
             case 'GET':
                 handleGetRquest(request);
@@ -122,14 +122,5 @@ function connectNative() {
     State.port.onDisconnect.addListener(onDisconnect);
     State.port.onMessage.addListener(onRequestReceived);
 }
-
-function notify(message: any) {
-    console.log(`background script received message: ${message}`);
-}
-
-/*
-Assign `notify()` as a listener to messages from the content script.
-*/
-chrome.runtime.onMessage.addListener(notify);
 
 connectNative();

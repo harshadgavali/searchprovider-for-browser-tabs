@@ -12,8 +12,14 @@ use shell_providers::gnome::WebSearchProvider;
 fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
     let done_listener = event_listener::Event::new().listen();
 
-    let app_id = format!("org.me.SearchProvider.{}", greeter.get_app_name());
-    let app_path = format!("/org/me/SearchProvider/{}", greeter.get_app_name());
+    let app_id = format!(
+        "com.github.harshadgavali.SearchProvider.{}",
+        greeter.get_app_name()
+    );
+    let app_path = format!(
+        "/com/github/harshadgavali/SearchProvider/{}",
+        greeter.get_app_name()
+    );
 
     let connection = Connection::session()?;
     let dbus_proxy = fdo::DBusProxy::new(&connection)?;

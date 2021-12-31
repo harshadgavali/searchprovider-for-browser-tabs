@@ -1,1 +1,2 @@
 option('home', type: 'string', value: '', description: 'Location of user\'s home directory.')
+option('flatpak-chromium', type: 'boolean', value: false, description: 'Enable connector for flatpak chromium')

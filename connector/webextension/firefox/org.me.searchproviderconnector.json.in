@@ -1,7 +1,0 @@
-{
-    "name": "@appAlphaNumId@",
-    "description": "My Application",
-    "path": "@connectorexepath@",
-    "type": "stdio",
-    "allowed_extensions": ["searchproviderconnector@searchproviderconnector"]
-  }

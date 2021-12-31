@@ -1,0 +1,9 @@
+{
+  "name": "@app_id@",
+  "description": "Tab search provider host connector",
+  "path": "@connectorexepath@",
+  "type": "stdio",
+  "allowed_extensions": [
+    "tabsearchprovider@com.github.harshadgavali"
+  ]
+}

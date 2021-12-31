@@ -4,8 +4,8 @@ const Main = imports.ui.main;
 const RemoteSearch = imports.ui.remoteSearch;
 const Util = imports.misc.util;
 
-const BASE_ID = "org.me.SearchProvider";
-const BASE_PATH = "/org/me/SearchProvider";
+const BASE_ID = "com.github.harshadgavali.SearchProvider";
+const BASE_PATH = "/com/github/harshadgavali/SearchProvider";
 const SEARCH_PROVIDERS_SCHEMA = 'org.gnome.desktop.search-providers';
 
 export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvider2 {

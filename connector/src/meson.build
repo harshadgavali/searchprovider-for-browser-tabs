@@ -8,7 +8,7 @@ cargo_release = custom_target(
   'cargo-build',
   build_by_default: true,
   input: connector_sources,
-  output: meson.project_name(),
+  output: app_id,
   console: true,
   install: true,
   install_dir: get_option('bindir'),
@@ -18,7 +18,7 @@ cargo_release = custom_target(
     meson.project_source_root(),
     '@OUTPUT@',
     get_option('buildtype'),
-    exeName,
+    meson.project_name(),
   ]
 )
 
