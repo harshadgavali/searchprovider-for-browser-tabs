@@ -1,31 +1,31 @@
-%global debug_package %{nil}
+%global debug_package       %{nil}
+%global gitrepo_name        searchprovider-for-browser-tabs
+%global subpackage_name     connector
+%global tarball_version     %{subpackage_name}-v%%(echo %{version} | tr '~' '-')
 
 Name:           tabsearchproviderconnector
-Version:	0.1.0
-Release:        1%{?dist}
+Version:        0.1.0~beta
+Release:        0.1%{?dist}
 Summary:        A simple hello script
 
 License:        MIT
-#URL:            
-Source0:        %{name}-%{version}.tar.gz
+URL:            https://github.com/harshadgavali/%{gitrepo_name}
+Source0:        %{url}/archive/refs/tags/%{tarball_version}.tar.gz
 
+BuildRequires:  cargo >= 1.39
+BuildRequires:  meson >= 0.59.0
+BuildRequires:  rust >= 1.39
 
-#BuildRequires:  
-BuildRequires: cargo >= 1.39
-BuildRequires: meson
-BuildRequires: rust >= 1.39
-
-Requires:      gnome-shell
+Requires:       dbus-daemon
 
 %description
-A demo RPM build
+Host connector for browser tab search provider for GNOME
 
 %prep
-%setup -q
-#autosetup
+%autosetup -v -n %{gitrepo_name}-%{tarball_version}/%{subpackage_name}
 
 %build
-%meson
+%meson --buildtype=release
 %meson_build
 
 %install
@@ -33,7 +33,8 @@ A demo RPM build
 strip --strip-all %{buildroot}%{_bindir}/*
 
 %files
-%{_prefix}/*
-%{_sysconfdir}/*
+%{_prefix}/bin/*%{name}
+%{_sysconfdir}/opt/chrome/native-messaging-hosts/*%{name}.json
+%{_prefix}/lib64/mozilla/native-messaging-hosts/*%{name}.json
 
 %changelog
