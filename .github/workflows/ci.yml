@@ -21,14 +21,14 @@ jobs:
           echo "::set-output name=tagname::${GITHUB_REF#refs/*/}"
           echo "::set-output name=filename::'gnome-tabsearchprovider-connector.${GITHUB_REF#refs/*/}.zip'"
 
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --user meson ninja
+
       - name: Clippy
         working-directory: ${{ env.working-directory }}
         run: |
           cargo clippy -- -D warnings
-
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --user meson
 
       - name: Build
         working-directory: ${{ env.working-directory }}
