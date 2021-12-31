@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "connector/**"
+    # paths:
+    #   - "connector/**"
 
 jobs:
   Build:
