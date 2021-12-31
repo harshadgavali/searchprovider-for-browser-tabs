@@ -21,19 +21,19 @@ jobs:
           echo "::set-output name=filename::'gnome-tabsearchprovider-connector.${GITHUB_REF#refs/*/}.zip'"
 
       - name: Clippy
-        working-directory: ${{ env.workking-directory }}
+        working-directory: ${{ env.working-directory }}
         run: |
           cargo clippy -- -D warnings
 
       - name: Build
-        working-directory: ${{ env.workking-directory }}
+        working-directory: ${{ env.working-directory }}
         run: |
           export GIT_HEAD_SHA=$(git rev-parse HEAD)
           meson --prefix=$PWD/dist build -Dbuildtype=Release
           ninja -C build install
 
       - name: Create Zip
-        working-directory: ${{ env.workking-directory }}
+        working-directory: ${{ env.working-directory }}
         run: |
           cd dist
           zip -r "${{ steps.zipName.outputs.filename }}" .
@@ -41,6 +41,6 @@ jobs:
       - name: Upload archive artifact
         uses: actions/upload-artifact@v2
         with:
-          working-directory: ${{ env.workking-directory }}
+          working-directory: ${{ env.working-directory }}
           name: ${{ steps.zipName.outputs.filename }}
           path: ${{ steps.zipName.outputs.filename }}
