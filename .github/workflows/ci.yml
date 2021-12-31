@@ -9,7 +9,6 @@ on:
 
 jobs:
   Build:
-    if: github.event.base_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
