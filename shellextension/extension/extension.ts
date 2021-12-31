@@ -1,5 +1,5 @@
-import { BrowserTabExtension } from './src/browserTabs';
-import { WindowAttentionHandlerExtension } from './src/windowAttensionHandler';
+import { BrowserTabExtension } from './src/browserTabs.js';
+import { WindowAttentionHandlerExtension } from './src/windowAttensionHandler.js';
 
 class Extension implements IExtension {
     private _extensions: ISubExtension[] = [];

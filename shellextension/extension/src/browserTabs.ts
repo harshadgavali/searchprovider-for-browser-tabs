@@ -7,6 +7,7 @@ const Util = imports.misc.util;
 const BASE_ID = "com.github.harshadgavali.SearchProvider";
 const BASE_PATH = "/com/github/harshadgavali/SearchProvider";
 const SEARCH_PROVIDERS_SCHEMA = 'org.gnome.desktop.search-providers';
+const EXENAME = "com.github.harshadgavali.tabsearchproviderconnector";
 
 export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvider2 {
     constructor(appInfo: typeof Gio.DesktopAppInfo.prototype, dbusName: string, dbusPath: string, autoStart: boolean) {
@@ -54,7 +55,7 @@ export class BrowserTabExtension implements ISubExtension {
         this._searchSettings = new Gio.Settings({ schema_id: SEARCH_PROVIDERS_SCHEMA });
         this._loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
 
-        Util.spawn(["/usr/bin/killall", "searchprovider-connector"]);
+        Util.spawn(["/usr/bin/killall", EXENAME]);
 
         const appSystem = Shell.AppSystem.get_default();
         const extensionThis = this;
@@ -79,7 +80,7 @@ export class BrowserTabExtension implements ISubExtension {
     destroy() {
         RemoteSearch.loadRemoteSearchProviders = this._loadRemoteSearchProviders;
         this._reloadProviders();
-        Util.spawn(["/usr/bin/killall", "searchprovider-connector"]);
+        Util.spawn(["/usr/bin/killall", EXENAME]);
     }
 
     _reloadProviders() {

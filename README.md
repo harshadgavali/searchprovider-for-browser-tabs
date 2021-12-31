@@ -13,5 +13,5 @@ ninja -C build install
 cd shellextension
 yarn
 yarn build
-yarn install
+yarn extension:install
 ```

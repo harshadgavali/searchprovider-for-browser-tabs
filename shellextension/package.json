@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup --config rollup.config.js",
-    "preinstall": "gnome-extensions pack --force dist",
-    "install": "gnome-extensions install --force *.shell-extension.zip"
+    "preextension:install": "gnome-extensions pack --force dist",
+    "extension:install": "gnome-extensions install --force *.shell-extension.zip"
   },
   "devDependencies": {
     "@gi-types/base-types": "^1.0.0",

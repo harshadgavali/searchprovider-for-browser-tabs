@@ -6,7 +6,7 @@ else
 endif
 
 appdata_conf = configuration_data()
-appdata_conf.set('connectorexepath', bindir / app_id)
+appdata_conf.set('connectorexepath', release_bindir / app_id)
 local_exe_name = '@0@-flatpak-wrapper.sh'.format(app_id)
 local_exe_dir = join_paths(HOME_DIR, '.local/bin')
 configure_file(
