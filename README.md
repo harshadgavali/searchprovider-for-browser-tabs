@@ -4,7 +4,7 @@
 #### connector
 ```
 cd connector
-meson build
+meson --prefix=/usr build
 ninja -C build install
 ```
 
