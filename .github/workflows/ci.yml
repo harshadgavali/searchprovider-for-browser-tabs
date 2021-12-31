@@ -19,7 +19,7 @@ jobs:
         id: zipName
         run: |
           echo "::set-output name=tagname::${GITHUB_REF#refs/*/}"
-          echo "::set-output name=filename::'gnome-tabsearchprovider-connector.${GITHUB_REF#refs/*/}.zip'"
+          echo "::set-output name=filename::'gnome-tabsearchprovider-connector.$(date --iso-8601).$(git rev-parse --short HEAD).zip'"
 
       - name: Install dependencies
         run: |
@@ -28,6 +28,8 @@ jobs:
       - name: Clippy
         working-directory: ${{ env.working-directory }}
         run: |
+          export CARGO_TARGET_DIR=build/target
+          export CARGO_HOME=build/cargo-home
           cargo clippy -- -D warnings
 
       - name: Build
@@ -41,11 +43,10 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: |
           cd dist
-          zip -r "${{ steps.zipName.outputs.filename }}" .
+          zip -r ${{ steps.zipName.outputs.filename }} .
 
       - name: Upload archive artifact
         uses: actions/upload-artifact@v2
         with:
-          working-directory: ${{ env.working-directory }}
           name: ${{ steps.zipName.outputs.filename }}
-          path: ${{ steps.zipName.outputs.filename }}
+          path: ${{ env.working-directory }}/dist/${{ steps.zipName.outputs.filename }}
