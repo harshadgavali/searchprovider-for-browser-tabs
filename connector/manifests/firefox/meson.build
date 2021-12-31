@@ -8,5 +8,5 @@ configure_file(
     input: 'manifest.json.in',
     output: output_file,
     install: true,
-    install_dir: libdir / 'mozilla/native-messaging-hosts/'
+    install_dir: prefix / 'lib64/mozilla/native-messaging-hosts/'
 )
