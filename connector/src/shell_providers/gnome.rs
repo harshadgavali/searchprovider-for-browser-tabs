@@ -58,6 +58,14 @@ impl WebSearchProvider {
     }
 }
 
+fn get_string_match_score(text: &str, normalized_terms: &[String]) -> i32 {
+    let text = text.to_lowercase();
+    normalized_terms
+        .iter()
+        .map(|term| text.to_lowercase().contains(term) as i32)
+        .sum()
+}
+
 fn filter_tabs(tabs: Vec<&TabsResponseData>, terms: &[String], app_name: &str) -> Vec<String> {
     let terms: Vec<String> = terms.iter().map(|term| term.to_lowercase()).collect();
 
@@ -65,19 +73,20 @@ fn filter_tabs(tabs: Vec<&TabsResponseData>, terms: &[String], app_name: &str) -
 
     let mut tab_score = HashMap::<u64, i32>::new();
     for tab in &tabs {
-        let mut score = terms
-            .iter()
-            .map(|term| tab.title.to_lowercase().contains(term) as i32)
-            .sum();
-        score += if return_all { 1 } else { 0 };
+        let score = (if return_all { 1 } else { 0 })
+            + get_string_match_score(tab.title.as_str(), &terms) * 2
+            + get_string_match_score(tab.url.as_str(), &terms);
+
         tab_score.insert(tab.id, score);
     }
 
+    let threshold = 0; // threshold scroe
+
     let mut tabs = tabs
         .into_iter()
-        .filter(|tab| tab_score.get(&tab.id).unwrap_or(&0) > &0)
+        .filter(|tab| tab_score.get(&tab.id).unwrap_or(&threshold) > &threshold)
         .collect::<Vec<&TabsResponseData>>();
-    tabs.sort_by_cached_key(|tab| tab_score.get(&tab.id).unwrap_or(&0));
+    tabs.sort_by_cached_key(|tab| tab_score.get(&tab.id).unwrap_or(&threshold));
     tabs.into_iter()
         .rev() // reverse sorting to have tabs with more match score at beginning
         .map(|tab| tab.id.to_string())
