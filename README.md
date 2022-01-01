@@ -2,6 +2,12 @@
 This is repository provides browser tab search provider for [GNOME](https://www.gnome.org/)
 
 # Installation
+Installl all 3 components for tab search to work
+1. [Browser extension](#browser-extension)
+1. [Shell extension](#shell-extension)
+1. [Host connector](#host-connector)
+
+
 ## Browser extension
 
 <a href="https://addons.mozilla.org/en-US/firefox/addon/tab-search-provider-for-gnome/">
@@ -22,13 +28,14 @@ yarn extension:install
 ```
 
 ## Host connector
-### For fedora
+### For Fedora Linux
+Install from [copr](https://copr.fedorainfracloud.org/coprs/harshadgavali/searchproviders/)
 ```
 sudo dnf copr enable harshadgavali/searchproviders
 sudo dnf install tabsearchproviderconnector
 ```
 
-### From releases
+### Install from releases
 * Download zip of latest release from [here](https://github.com/harshadgavali/searchprovider-for-browser-tabs/releases/)
 ```
 # first verify what files zip has
@@ -41,7 +48,7 @@ zip -sf gnome-tabsearchprovider-connector.connector-*.zip
 sudo unzip -o -d / gnome-tabsearchprovider-connector.connector-*.zip
 ```
 
-### From sources
+### Install from git
 **Dependencies**: meson, ninja, cargo, rust
 ```
 cd connector
