@@ -37,7 +37,7 @@ fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
     Ok(())
 }
 
-fn print_help(args: &Vec<String>) {
+fn print_help(args: &[String]) {
     println!(
         "You weren't supposed to do that!\n\
         This executable should be started by browser not by users.\n\
