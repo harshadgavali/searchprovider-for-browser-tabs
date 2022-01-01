@@ -37,19 +37,42 @@ fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
     Ok(())
 }
 
+fn print_help(args: &Vec<String>) {
+    println!(
+        "You weren't supposed to do that!\n\
+        This executable should be started by browser not by users.\n\
+        Unknown arguments: {:}\n\
+        Supported arguments:\n\
+        \t--version\tdisplay version information\n",
+        &args[1..args.len()].join(" ")
+    );
+}
+
+fn print_version() {
+    const VERSION: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
+    const COMMIT: Option<&'static str> = option_env!("GIT_HEAD_SHA");
+    println!("version: {}", VERSION.unwrap_or("unknown"));
+    if let Some(commit) = COMMIT {
+        println!("commit: {}", commit)
+    }
+}
+
 fn main() -> zbus::Result<()> {
-    // let args: Vec<String> = args().collect();
+    let args: Vec<String> = args().collect();
 
-    match args().count() {
-        3 => {
-            start_dbus_server(WebSearchProvider::new("Firefox", "firefox"))?;
-        }
+    match args.len() {
+        3 => start_dbus_server(WebSearchProvider::new("Firefox", "firefox"))?,
 
-        2 => {
-            start_dbus_server(WebSearchProvider::new("Chromium", "org.chromium.Chromium"))?;
-        }
+        2 => match args[1].as_str() {
+            "--version" => print_version(),
+            "--help" => print_help(&args),
+            "chrome-extension://hbfkagihoehhhhennimjlefkidkjknck/" => {
+                start_dbus_server(WebSearchProvider::new("Edge", "microsoft-edge"))?
+            }
+            _ => start_dbus_server(WebSearchProvider::new("Chromium", "org.chromium.Chromium"))?,
+        },
 
-        _ => {}
+        _ => print_help(&args),
     };
 
     Ok(())

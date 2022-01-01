@@ -5,6 +5,7 @@
   "type": "stdio",
   "allowed_origins": [
     "chrome-extension://kgjkdpfdaiopmjbajpkhcjebjodgohkk/",
-    "chrome-extension://nmfjaaiffpfflgaohcfjabiilgdgnhhk/"
+    "chrome-extension://nmfjaaiffpfflgaohcfjabiilgdgnhhk/",
+    "chrome-extension://hbfkagihoehhhhennimjlefkidkjknck/"
   ]
 }

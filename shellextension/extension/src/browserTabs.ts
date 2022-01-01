@@ -55,8 +55,6 @@ export class BrowserTabExtension implements ISubExtension {
         this._searchSettings = new Gio.Settings({ schema_id: SEARCH_PROVIDERS_SCHEMA });
         this._loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
 
-        Util.spawn(["/usr/bin/killall", EXENAME]);
-
         const appSystem = Shell.AppSystem.get_default();
         const extensionThis = this;
 
@@ -64,6 +62,7 @@ export class BrowserTabExtension implements ISubExtension {
             extensionThis._loadRemoteSearchProviders(searchSettings, results => {
                 [
                     getProvider(appSystem.lookup_app('org.chromium.Chromium.desktop'), 'Chromium'),
+                    getProvider(appSystem.lookup_app('microsoft-edge.desktop'), 'Edge'),
                     getProvider(appSystem.lookup_app('firefox.desktop'), 'Firefox'),
                 ].forEach(provider => {
                     if (provider)
