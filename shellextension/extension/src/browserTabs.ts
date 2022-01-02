@@ -4,15 +4,18 @@ const Main = imports.ui.main;
 const RemoteSearch = imports.ui.remoteSearch;
 const Util = imports.misc.util;
 
-const BASE_ID = "com.github.harshadgavali.SearchProvider";
-const BASE_PATH = "/com/github/harshadgavali/SearchProvider";
+const DOMAIN_NAME = 'com.github.harshadgavali';
+const BASE_ID = `${DOMAIN_NAME}.SearchProvider`;
+const BASE_PATH = `/${DOMAIN_NAME.replace(/\./g, '/')}/SearchProvider`;
 const SEARCH_PROVIDERS_SCHEMA = 'org.gnome.desktop.search-providers';
-const EXENAME = "com.github.harshadgavali.tabsearchproviderconnector";
+const EXENAME = `${DOMAIN_NAME}.tabsearchproviderconnector`;
 
 export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvider2 {
     constructor(appInfo: typeof Gio.DesktopAppInfo.prototype, dbusName: string, dbusPath: string, autoStart: boolean) {
         super(appInfo, dbusName, dbusPath, autoStart);
 
+        this.id = `tabsearchprovider.${dbusName}`;
+        this.isRemoteProvider = false;
         this.canLaunchSearch = false;
     }
 

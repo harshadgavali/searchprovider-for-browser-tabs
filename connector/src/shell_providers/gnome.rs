@@ -69,11 +69,12 @@ fn get_string_match_score(text: &str, normalized_terms: &[String]) -> i32 {
 fn filter_tabs(tabs: Vec<&TabsResponseData>, terms: &[String], app_name: &str) -> Vec<String> {
     let terms: Vec<String> = terms.iter().map(|term| term.to_lowercase()).collect();
 
-    let return_all = terms.len() == 1 && app_name.to_lowercase().contains(&terms[0]);
+    let common_score =
+        get_string_match_score(app_name, &terms) + get_string_match_score("tabs", &terms);
 
     let mut tab_score = HashMap::<u64, i32>::new();
     for tab in &tabs {
-        let score = (if return_all { 1 } else { 0 })
+        let score = common_score
             + get_string_match_score(tab.title.as_str(), &terms) * 2
             + get_string_match_score(tab.url.as_str(), &terms);
 
