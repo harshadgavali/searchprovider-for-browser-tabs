@@ -1,4 +1,4 @@
-const { Meta, Shell } = imports.gi;
+const { Meta } = imports.gi;
 const { windowAttentionHandler, activateWindow } = imports.ui.main;
 
 export class WindowAttentionHandlerExtension implements ISubExtension {
