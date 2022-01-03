@@ -1,11 +1,12 @@
 {
     "name": "Browser tabs",
-    "description": "Search provider for browser tabs",
+    "description": "Search provider for browser tabs\n\nSee following github link for installing browser extension and host app for searches to appear!",
     "uuid": "browser-tabs@com.github.harshadgavali",
     "shell-version": [
         "40",
         "41",
         "42"
     ],
-    "version": 1
+    "url": "https://github.com/harshadgavali/searchprovider-for-browser-tabs.git/",
+    "version": 4
 }
