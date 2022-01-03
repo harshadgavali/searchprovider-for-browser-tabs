@@ -10,8 +10,6 @@ mod webextension;
 use shell_providers::gnome::WebSearchProvider;
 
 fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
-    let done_listener = event_listener::Event::new().listen();
-
     let app_id = format!(
         "com.github.harshadgavali.SearchProvider.{}",
         greeter.get_app_name()
@@ -33,7 +31,6 @@ fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
         return Ok(());
     }
 
-    done_listener.wait();
     Ok(())
 }
 

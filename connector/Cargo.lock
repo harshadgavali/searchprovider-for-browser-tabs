@@ -161,9 +161,9 @@ dependencies = [
 
 [[package]]
 name = "easy-parallel"
-version = "3.1.0"
+version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1dd4afd79212583ff429b913ad6605242ed7eec277e950b1438f300748f948f4"
+checksum = "6907e25393cdcc1f4f3f513d9aac1e840eb1cc341a0fccb01171f7d14d10b946"
 
 [[package]]
 name = "enumflags2"
@@ -353,9 +353,9 @@ checksum = "427c3892f9e783d91cc128285287e70a59e206ca452770ece88a76f7a3eddd72"
 
 [[package]]
 name = "pin-project-lite"
-version = "0.2.7"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d31d11c69a6b52a174b42bdc0c30e5e11670f90788b2c471c31c1d17d449443"
+checksum = "e280fbe77cc62c91527259e9442153f4688736748d24660126286329742b4c6c"
 
 [[package]]
 name = "pin-utils"
@@ -378,9 +378,9 @@ dependencies = [
 
 [[package]]
 name = "ppv-lite86"
-version = "0.2.15"
+version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed0cfbc8191465bed66e1718596ee0b0b35d5ee1f41c5df2189d0fe8bde535ba"
+checksum = "eb9f9e6e233e5c4a35559a617bf40a4ec447db2e84c20b55a6f83167b7e57872"
 
 [[package]]
 name = "proc-macro-crate"
@@ -475,18 +475,18 @@ checksum = "73b4b750c782965c211b42f022f59af1fbceabdd026623714f104152f1ec149f"
 
 [[package]]
 name = "serde"
-version = "1.0.132"
+version = "1.0.133"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8b9875c23cf305cd1fd7eb77234cbb705f21ea6a72c637a5c6db5fe4b8e7f008"
+checksum = "97565067517b60e2d1ea8b268e59ce036de907ac523ad83a0475da04e818989a"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.132"
+version = "1.0.133"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ecc0db5cb2556c0e558887d9bbdcf6ac4471e83ff66cf696e5419024d1606276"
+checksum = "ed201699328568d8d08208fdd080e3ff594e6c422e438b6705905da01005d537"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -495,9 +495,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.73"
+version = "1.0.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcbd0344bc6533bc7ec56df11d42fb70f1b912351c0825ccb7211b59d8af7cf5"
+checksum = "ee2bb9cd061c5865d345bb02ca49fcef1391741b672b54a0bf7b679badec3142"
 dependencies = [
  "itoa",
  "ryu",
@@ -556,11 +556,9 @@ dependencies = [
 
 [[package]]
 name = "tabsearchproviderconnector"
-version = "0.1.0-beta"
+version = "0.1.0"
 dependencies = [
- "async-io",
  "byteorder",
- "event-listener",
  "serde",
  "serde_json",
  "serde_repr",
@@ -648,9 +646,9 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 
 [[package]]
 name = "zbus"
-version = "2.0.0-beta.8"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2422a0f87e8307730a734dc6c59af0dcd680db1b9944ab1a2fb5061194e47233"
+checksum = "d8b6202696b4dc8ee26ff92939c79a0307e7cd683374fdf500902d74d914fef6"
 dependencies = [
  "async-broadcast",
  "async-channel",
@@ -683,9 +681,9 @@ dependencies = [
 
 [[package]]
 name = "zbus_macros"
-version = "2.0.0-beta.8"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b229592c7b16f37d82a9a83fc7c20dd4979efca70c714edec5847ac5c168e744"
+checksum = "fd2ea67f43e8abd245eabc480e597990340d9870b585d40bf4350d742acb2219"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
