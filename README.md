@@ -48,6 +48,9 @@ zip -sf gnome-tabsearchprovider-connector.connector-*.zip
 # - usr/lib64/mozilla/native-messaging-hosts/com.github.harshadgavali.tabsearchproviderconnector.json
 
 sudo unzip -o -d / gnome-tabsearchprovider-connector.connector-*.zip
+# copy file from lib64 to lib (because I don't know default lib directory for your system) 
+sudo mkdir -p /usr/lib/mozilla/native-messaging-hosts/
+sudo cp -v /usr/lib64/mozilla/native-messaging-hosts/*tabsearchproviderconnector.json /usr/lib/mozilla/native-messaging-hosts/
 ```
 
 ### Install from git
@@ -56,6 +59,10 @@ sudo unzip -o -d / gnome-tabsearchprovider-connector.connector-*.zip
 cd connector
 meson --prefix=/usr build
 ninja -C build install
+
+# copy file from lib64 to lib
+sudo mkdir -p /usr/lib/mozilla/native-messaging-hosts/
+sudo cp -v /usr/lib64/mozilla/native-messaging-hosts/*tabsearchproviderconnector.json /usr/lib/mozilla/native-messaging-hosts/
 ```
 
 #### If you installed browser addons in different way
@@ -63,6 +70,7 @@ ninja -C build install
 with ids of browser addons
   * /etc/opt/chrome/native-messaging-hosts/
   * /usr/lib64/mozilla/native-messaging-hosts/
+  * /usr/lib/mozilla/native-messaging-hosts/
 
 #### After installation
 * Open browser
