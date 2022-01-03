@@ -4,8 +4,8 @@
 %global tarball_version     %{subpackage_name}-v%%(echo %{version} | tr '~' '-')
 
 Name:           tabsearchproviderconnector
-Version:        0.1.0~beta
-Release:        0.1%{?dist}
+Version:        0.1.0
+Release:        1%{?dist}
 Summary:        Browser tab search provider for GNOME
 
 License:        MIT
