@@ -15,7 +15,7 @@ export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvid
         super(appInfo, dbusName, dbusPath, autoStart);
 
         this.id = `tabsearchprovider.${dbusName}`;
-        this.isRemoteProvider = false;
+        this.isRemoteProvider = true;
         this.canLaunchSearch = false;
     }
 
