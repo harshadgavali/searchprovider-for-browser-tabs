@@ -48,7 +48,8 @@ zip -sf gnome-tabsearchprovider-connector.connector-*.zip
 # - usr/lib64/mozilla/native-messaging-hosts/com.github.harshadgavali.tabsearchproviderconnector.json
 
 sudo unzip -o -d / gnome-tabsearchprovider-connector.connector-*.zip
-# copy file from lib64 to lib (because I don't know default lib directory for your system) 
+
+# copy file from lib64 to lib 
 sudo mkdir -p /usr/lib/mozilla/native-messaging-hosts/
 sudo cp -v /usr/lib64/mozilla/native-messaging-hosts/*tabsearchproviderconnector.json /usr/lib/mozilla/native-messaging-hosts/
 ```
