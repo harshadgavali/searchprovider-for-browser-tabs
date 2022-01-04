@@ -37,7 +37,11 @@ sudo dnf copr enable harshadgavali/searchproviders
 sudo dnf install tabsearchproviderconnector
 ```
 
-### Install from releases
+### For Manjaro, Arch Linux and derivatives
+Install [tabsearchproviderconnector](https://aur.archlinux.org/packages/tabsearchproviderconnector/) from AUR (packaged by [@bartlibert](https://github.com/bartlibert)).
+
+### For other distributions
+#### Install from releases
 * Download zip of latest release from [here](https://github.com/harshadgavali/searchprovider-for-browser-tabs/releases/)
 ```
 # first verify what files zip has
@@ -54,7 +58,7 @@ sudo mkdir -p /usr/lib/mozilla/native-messaging-hosts/
 sudo ln -s /usr/lib{64,}/mozilla/native-messaging-hosts/com.github.harshadgavali.tabsearchproviderconnector.json
 ```
 
-### Install from git
+#### Install from git
 **Dependencies**: meson, ninja, cargo, rust
 ```
 cd connector
@@ -66,13 +70,13 @@ sudo mkdir -p /usr/lib/mozilla/native-messaging-hosts/
 sudo ln -s /usr/lib{64,}/mozilla/native-messaging-hosts/com.github.harshadgavali.tabsearchproviderconnector.json
 ```
 
-#### If you installed browser addons in different way
+## If you installed browser addons in different way
 * Then update manifest in following locations 
 with ids of browser addons
   * /etc/opt/chrome/native-messaging-hosts/
   * /usr/lib64/mozilla/native-messaging-hosts/
 
-#### After installation
+## After installation
 * Open browser
 * Start searching with `Super` key
   * Browser tabs(except active tabs) will appear in search results
