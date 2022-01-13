@@ -24,7 +24,7 @@
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
-    "eslint": "^8.1.0",
+    "eslint": "^8.6.0",
     "rollup": "^2.62.0",
     "rollup-plugin-copy": "^3.4.0",
     "tslib": "^2.3.1",
