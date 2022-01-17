@@ -8,14 +8,14 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/webextension" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/shellextension" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       
   - package-ecosystem: "cargo" # See documentation for possible values
     directory: "/connector" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "monthly"
