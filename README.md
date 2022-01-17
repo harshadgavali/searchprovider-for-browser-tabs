@@ -12,10 +12,15 @@ Installl all 3 components for tab search to work
 
 ## Browser extension
 
-<a href="https://addons.mozilla.org/en-US/firefox/addon/tab-search-provider-for-gnome/">
-<img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Get for Firefox" width="200"/>
-</a>
-
+<p float="center">
+ <a href="https://addons.mozilla.org/en-US/firefox/addon/tab-search-provider-for-gnome/">
+ <img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Get for Firefox" width="200"/>
+ </a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/tab-search-provider-for-g/pjidkdbbdemngigldodbdpkpggmgilnl/">
+ <img src="https://getbadgecdn.azureedge.net/images/English_L.png" alt="Get for Edge" width="200"/>
+ </a>
+</p>
+ 
 ## Shell extension
 <a href="https://extensions.gnome.org/extension/4733/browser-tabs/">
 <img src="https://github.com/andyholmes/gnome-shell-extensions-badge/raw/master/get-it-on-ego.svg" alt="Get it on EGO" width="200" />
