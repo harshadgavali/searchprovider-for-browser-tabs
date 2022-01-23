@@ -27,8 +27,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: |
           export CARGO_TARGET_DIR=build/target
-          export CARGO_HOME=build/cargo-home
-          cargo clippy -- -D warnings
+          cargo clippy --release -- -D warnings
 
       - name: Build
         working-directory: ${{ env.working-directory }}
