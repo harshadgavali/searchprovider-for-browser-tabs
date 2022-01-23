@@ -4,8 +4,8 @@
   "path": "@connectorexepath@",
   "type": "stdio",
   "allowed_origins": [
-    "chrome-extension://kgjkdpfdaiopmjbajpkhcjebjodgohkk/",
-    "chrome-extension://nmfjaaiffpfflgaohcfjabiilgdgnhhk/",
-    "chrome-extension://hbfkagihoehhhhennimjlefkidkjknck/"
+    "chrome-extension://pjidkdbbdemngigldodbdpkpggmgilnl/",
+    "chrome-extension://oemddknfonbdjbdggoopmapgojnjdmjc/",
+    "chrome-extension://fjfcbcgllgpjkemliimiamjcefabdkik/"
   ]
 }

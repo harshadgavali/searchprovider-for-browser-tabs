@@ -9,6 +9,14 @@ mod webextension;
 
 use shell_providers::gnome::WebSearchProvider;
 
+const EDGE_EXTENSIONS_IDS: &[&str] = &[
+    "chrome-extension://oemddknfonbdjbdggoopmapgojnjdmjc/", // devel id, keeps changing depending on directory where code is
+    "chrome-extension://pjidkdbbdemngigldodbdpkpggmgilnl/", // store id
+];
+
+const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
+const COMMIT: Option<&str> = option_env!("GIT_HEAD_SHA");
+
 fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
     let app_id = format!(
         "com.github.harshadgavali.SearchProvider.{}",
@@ -46,8 +54,6 @@ fn print_help(args: &[String]) {
 }
 
 fn print_version() {
-    const VERSION: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
-    const COMMIT: Option<&'static str> = option_env!("GIT_HEAD_SHA");
     println!("version: {}", VERSION.unwrap_or("unknown"));
     if let Some(commit) = COMMIT {
         println!("commit: {}", commit)
@@ -63,10 +69,13 @@ fn main() -> zbus::Result<()> {
         2 => match args[1].as_str() {
             "--version" => print_version(),
             "--help" => print_help(&args),
-            "chrome-extension://hbfkagihoehhhhennimjlefkidkjknck/" => {
-                start_dbus_server(WebSearchProvider::new("Edge", "microsoft-edge"))?
+            extension_id => {
+                if EDGE_EXTENSIONS_IDS.contains(&extension_id) {
+                    start_dbus_server(WebSearchProvider::new("Edge", "microsoft-edge"))?
+                } else {
+                    start_dbus_server(WebSearchProvider::new("Chromium", "org.chromium.Chromium"))?
+                }
             }
-            _ => start_dbus_server(WebSearchProvider::new("Chromium", "org.chromium.Chromium"))?,
         },
 
         _ => print_help(&args),
