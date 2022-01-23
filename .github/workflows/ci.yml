@@ -1,15 +1,19 @@
-name: Connector CI
+name: CI
 
 on:
   push:
     branches:
       - main
       - github-ci
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [main]
     # paths:
     #   - "connector/**"
 
 jobs:
-  Build:
+  connector:
+    name: "Host connector"
     runs-on: ubuntu-latest
     env:
       working-directory: ./connector
@@ -29,14 +33,13 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: |
           export CARGO_TARGET_DIR=build/target
-          export CARGO_HOME=build/cargo-home
           cargo clippy -- -D warnings
 
       - name: Build
         working-directory: ${{ env.working-directory }}
         run: |
           export GIT_HEAD_SHA=$(git rev-parse HEAD)
-          meson --prefix=$PWD/dist/usr --sysconfdir=$PWD/dist/etc --buildtype=release build
+          meson --prefix=$PWD/dist/usr --sysconfdir=$PWD/dist/etc build
           ninja -C build install
 
       - name: Create Zip
@@ -50,3 +53,29 @@ jobs:
         with:
           name: ${{ steps.zipName.outputs.filename }}
           path: ${{ env.working-directory }}/dist/${{ steps.zipName.outputs.filename }}
+
+  shell-extension:
+    name: "Shell extension"
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./shellextension
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint
+        working-directory: ${{ env.working-directory }}
+        run: |
+          yarn
+          yarn eslint "extension/**/*.ts"
+
+  web-extension:
+    name: "Web extension"
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./webextension
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint
+        working-directory: ${{ env.working-directory }}
+        run: |
+          yarn
+          yarn eslint "src/**/*.ts"

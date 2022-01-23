@@ -1,6 +1,5 @@
 const { Shell, Gio } = imports.gi;
 
-const Main = imports.ui.main;
 const RemoteSearch = imports.ui.remoteSearch;
 const Util = imports.misc.util;
 
@@ -59,6 +58,7 @@ export class BrowserTabExtension implements ISubExtension {
         this._loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
 
         const appSystem = Shell.AppSystem.get_default();
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const extensionThis = this;
 
         RemoteSearch.loadRemoteSearchProviders = function (searchSettings, callback) {
@@ -82,7 +82,7 @@ export class BrowserTabExtension implements ISubExtension {
     destroy() {
         RemoteSearch.loadRemoteSearchProviders = this._loadRemoteSearchProviders;
         this._reloadProviders();
-        Util.spawn(["/usr/bin/killall", EXENAME]);
+        Util.spawn(['/usr/bin/killall', EXENAME]);
     }
 
     _reloadProviders() {
