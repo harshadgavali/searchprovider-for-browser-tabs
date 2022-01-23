@@ -69,6 +69,10 @@ sudo ln -s /usr/lib{64,}/mozilla/native-messaging-hosts/com.github.harshadgavali
 cd connector
 meson --prefix=/usr build
 ninja -C build install
+
+# create link for file from lib64 to lib
+sudo mkdir -p /usr/lib/mozilla/native-messaging-hosts/
+sudo ln -s /usr/lib{64,}/mozilla/native-messaging-hosts/com.github.harshadgavali.tabsearchproviderconnector.json
 ```
 
 ## If you installed browser addons in different way

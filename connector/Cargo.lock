@@ -495,9 +495,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.74"
+version = "1.0.78"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee2bb9cd061c5865d345bb02ca49fcef1391741b672b54a0bf7b679badec3142"
+checksum = "d23c1ba4cf0efd44be32017709280b32d1cea5c3f1275c3b6d9e8bc54f758085"
 dependencies = [
  "itoa",
  "ryu",
@@ -556,7 +556,7 @@ dependencies = [
 
 [[package]]
 name = "tabsearchproviderconnector"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "byteorder",
  "serde",
