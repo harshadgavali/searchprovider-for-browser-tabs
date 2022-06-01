@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 zbus = "^2.0.1"
-zvariant = "^3.0.0"
+zvariant = "^3.2.1"
 byteorder = "^1.4.3"
 serde_json = "^1.0.75"
 serde_repr = "^0.1.7"
