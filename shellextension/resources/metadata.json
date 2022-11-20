@@ -1,12 +1,10 @@
 {
     "name": "Browser tabs",
-    "description": "Search provider for browser tabs\n\nSee following github link for installing browser extension and host app for searches to appear!",
+    "description": "Search and switch to browser tabs using GNOME overview/ArcMenu\n\nSee following github link for installing necessary browser extension and host app!",
     "uuid": "browser-tabs@com.github.harshadgavali",
     "shell-version": [
-        "40",
-        "41",
-        "42"
+        "43"
     ],
     "url": "https://github.com/harshadgavali/searchprovider-for-browser-tabs.git/",
-    "version": 4
+    "version": 5
 }

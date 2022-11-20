@@ -8,9 +8,11 @@ declare module 'resource:///org/gnome/shell/js/ui/remoteSearch.js' {
         appInfo: Gio.DesktopAppInfo;
         id: string;
         isRemoteProvider: boolean;
-        _getResultsFinished(results: unknown[], error: typeof Gio.DBusError.prototype, callback: (results: unknown[]) => void): void;
-        _getResultMetasFinished(results: unknown[], error: typeof Gio.DBusError.prototype, callback: (results: unknown[]) => void): void
+        proxy: Gio.DBusProxy;
+
+        getInitialResultSet(terms: string[], cancellable: Gio.Cancellable): Promise<unknown[]>;
+        getSubsearchResultSet(previousResults: unknown[], newTerms: string[], cancellable: Gio.Cancellable): Promise<unknown[]>;
     }
 
-    function loadRemoteSearchProviders(searchSettings: typeof Gio.Settings.prototype, callback: (providers: RemoteSearchProvider2[]) => void): void;
+    function loadRemoteSearchProviders(searchSettings: typeof Gio.Settings.prototype): RemoteSearchProvider2[];
 }

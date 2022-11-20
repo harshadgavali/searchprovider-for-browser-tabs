@@ -18,22 +18,39 @@ export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvid
         this.canLaunchSearch = false;
     }
 
-    override _getResultsFinished(results: unknown[], error: typeof Gio.DBusError.prototype, callback: (results: unknown[]) => void): void {
-        if (error) {
-            callback([]);
-            return;
+    override async getInitialResultSet(terms: string[], cancellable: typeof Gio.Cancellable.prototype) {
+        try {
+            const [results] = await this.proxy.GetInitialResultSetAsync(terms, cancellable);
+            return results;
         }
-        super._getResultsFinished(results, error, callback);
+        catch (error) {
+            this._handleGioDbusError(error);
+            return [];
+        }
     }
 
-    override _getResultMetasFinished(results: unknown[], error: typeof Gio.DBusError.prototype, callback: (results: unknown[]) => void): void {
-        if (error) {
-            callback([]);
-            return;
+    override async getSubsearchResultSet(previousResults: unknown[], newTerms: string[], cancellable: typeof Gio.Cancellable.prototype) {
+        try {
+            const [results] = await this.proxy.GetSubsearchResultSetAsync(previousResults, newTerms, cancellable);
+            return results;
         }
-        super._getResultMetasFinished(results, error, callback);
+        catch (error) {
+            this._handleGioDbusError(error);
+            return [];
+        }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private _handleGioDbusError(error: any) {
+        if (
+            !error?.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED) &&
+            !error?.matches(Gio.DBusError, Gio.DBusError.SERVICE_UNKNOWN)
+        ) {
+            log(`Received error from D-Bus search provider ${this.id}: ${error}`);
+        }
     }
 }
+
 function getProvider(app: typeof Shell.App.prototype | undefined, appName: string) {
     if (!app)
         return;
@@ -51,29 +68,31 @@ function getProvider(app: typeof Shell.App.prototype | undefined, appName: strin
 
 export class BrowserTabExtension implements ISubExtension {
     private _searchSettings: typeof Gio.Settings.prototype;
-    private _loadRemoteSearchProviders: (searchSettings: typeof Gio.Settings.prototype, callback: (providers: (typeof RemoteSearch.RemoteSearchProvider2.prototype)[]) => void) => void;
+    private _appIds: { id: string, name: string }[];
+    private _loadRemoteSearchProviders: typeof RemoteSearch.loadRemoteSearchProviders;
 
     constructor() {
         this._searchSettings = new Gio.Settings({ schema_id: SEARCH_PROVIDERS_SCHEMA });
         this._loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
+        this._appIds = [
+            { id: 'firefox.desktop', name: 'FireFox' },
+            { id: 'microsoft-edge.desktop', name: 'Edge' },
+            { id: 'org.chromium.Chromium.desktop', name: 'Chromium' },
+        ];
+        this._appIds.reverse();
 
         const appSystem = Shell.AppSystem.get_default();
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const extensionThis = this;
 
-        RemoteSearch.loadRemoteSearchProviders = function (searchSettings, callback) {
-            extensionThis._loadRemoteSearchProviders(searchSettings, results => {
-                [
-                    getProvider(appSystem.lookup_app('org.chromium.Chromium.desktop'), 'Chromium'),
-                    getProvider(appSystem.lookup_app('microsoft-edge.desktop'), 'Edge'),
-                    getProvider(appSystem.lookup_app('firefox.desktop'), 'Firefox'),
-                ].forEach(provider => {
-                    if (provider)
-                        results.unshift(provider);
-                });
-
-                callback(results);
+        RemoteSearch.loadRemoteSearchProviders = function (searchSettings) {
+            const providers = extensionThis._loadRemoteSearchProviders(searchSettings);
+            extensionThis._appIds.forEach(app => {
+                const provider = getProvider(appSystem.lookup_app(app.id), app.name);
+                if (provider)
+                    providers.unshift(provider);
             });
+            return providers;
         };
 
         this._reloadProviders();

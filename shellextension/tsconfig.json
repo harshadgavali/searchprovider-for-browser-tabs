@@ -15,7 +15,7 @@
         "allowSyntheticDefaultImports": true,
         "rootDir": "./extension",
         "outDir": "./dist",
-        "target": "ES6",
+        "target": "ES2019",
         "moduleResolution": "Node",
         "noImplicitOverride": true,
     },
