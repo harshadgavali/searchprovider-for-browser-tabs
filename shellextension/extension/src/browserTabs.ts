@@ -75,7 +75,7 @@ export class BrowserTabExtension implements ISubExtension {
         this._searchSettings = new Gio.Settings({ schema_id: SEARCH_PROVIDERS_SCHEMA });
         this._loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
         this._appIds = [
-            { id: 'firefox.desktop', name: 'FireFox' },
+            { id: 'firefox.desktop', name: 'Firefox' },
             { id: 'microsoft-edge.desktop', name: 'Edge' },
             { id: 'org.chromium.Chromium.desktop', name: 'Chromium' },
         ];
