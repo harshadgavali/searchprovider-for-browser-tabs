@@ -9,6 +9,6 @@ edition = "2021"
 zbus = "^2.0.1"
 zvariant = "^3.0.0"
 byteorder = "^1.4.3"
-serde_json = "^1.0.75"
+serde_json = "^1.0.89"
 serde_repr = "^0.1.7"
 serde = { version = "^1.0.133", features = ["derive"] }
