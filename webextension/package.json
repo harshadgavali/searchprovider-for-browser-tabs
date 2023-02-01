@@ -12,7 +12,7 @@
     "@rollup/plugin-typescript": "^8.3.0",
     "@types/chrome": "^0.0.176",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/parser": "^5.10.0",
+    "@typescript-eslint/parser": "^5.50.0",
     "eslint": "^8.7.0",
     "rollup": "^2.66.0",
     "rollup-plugin-copy": "^3.4.0",
