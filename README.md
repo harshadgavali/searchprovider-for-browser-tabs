@@ -1,5 +1,5 @@
 # What is this ?
-This is repository provides browser tab search provider for [GNOME](https://www.gnome.org/)
+This project provides browser tab search provider for [GNOME](https://www.gnome.org/)
 ### Screenshot
 ![Firefox search screenshot](./assets/firefox-search-screenshot.png)
 
