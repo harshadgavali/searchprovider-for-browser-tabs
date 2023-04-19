@@ -101,7 +101,7 @@ impl GnomeSearchProvider for WebSearchProvider {
         for tab in communication::get_tabs() {
             self.tabs.insert(tab.id, tab);
         }
-        let tabs = self.tabs.iter().map(|(_, tab)| tab).collect();
+        let tabs = self.tabs.values().collect();
         filter_tabs(tabs, &terms, self.name.as_str())
     }
 
@@ -110,7 +110,7 @@ impl GnomeSearchProvider for WebSearchProvider {
         _previous_results: Vec<String>,
         terms: Vec<String>,
     ) -> Vec<String> {
-        let tabs = self.tabs.iter().map(|(_, tab)| tab).collect();
+        let tabs = self.tabs.values().collect();
         filter_tabs(tabs, &terms, self.name.as_str())
     }
 
