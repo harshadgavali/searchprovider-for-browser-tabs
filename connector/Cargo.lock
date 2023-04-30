@@ -287,6 +287,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1aab8fc367588b89dcee83ab0fd66b72b50b72fa1904d7095045ace2b0c81c35"
 
 [[package]]
+name = "lazy_static"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
+
+[[package]]
 name = "libc"
 version = "0.2.112"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -646,9 +652,9 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 
 [[package]]
 name = "zbus"
-version = "2.0.1"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2ac8424f5aa1f239d2d7ecb32f9d5ffc6fcf5fb9298d2d524a7e7c8b258c3f80"
+checksum = "22128509baa98972e4a756a32fff9bd55fd6e4d1426c70ce0ef860d3788f9938"
 dependencies = [
  "async-broadcast",
  "async-channel",
@@ -666,6 +672,7 @@ dependencies = [
  "futures-sink",
  "futures-util",
  "hex",
+ "lazy_static",
  "nix",
  "once_cell",
  "ordered-stream",
@@ -674,6 +681,7 @@ dependencies = [
  "serde_repr",
  "sha1",
  "static_assertions",
+ "winapi",
  "zbus_macros",
  "zbus_names",
  "zvariant",
@@ -681,9 +689,9 @@ dependencies = [
 
 [[package]]
 name = "zbus_macros"
-version = "2.0.1"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e03af45fc15e2c977161c5ffea56c43c41f425a963affd7074bf91b5bf5a8cf"
+checksum = "fc6f42176fbc4f106e28cfa283c4d97b067c3a194a1d8fe335e0080945c88eb0"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
