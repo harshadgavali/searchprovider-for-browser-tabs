@@ -5,12 +5,12 @@
             "./node_modules/@gi-types",
         ],
         "types": [
-            "gjs-environment",
             "base-types",
             //   "gtk4-types",
         ],
         "lib": [
-            "ES2019"
+            "ES2019",
+            "DOM"
         ],
         "allowSyntheticDefaultImports": true,
         "rootDir": "./extension",
@@ -18,5 +18,6 @@
         "target": "ES2019",
         "moduleResolution": "Node",
         "noImplicitOverride": true,
-    },
+        "skipLibCheck": true,
+    }
 }

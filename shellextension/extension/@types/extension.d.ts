@@ -1,10 +1,5 @@
-
-interface IExtension {
-    enable(): void;
-    disable(): void;
-}
-
-
 interface ISubExtension {
-    destroy(): void;
+    clear(): void;
 }
+
+declare type Nullable<T> = T | null | undefined;

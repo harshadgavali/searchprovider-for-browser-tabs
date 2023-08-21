@@ -17,7 +17,7 @@ Installl all 3 components for tab search to work
  <img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Get for Firefox" width="200"/>
  </a>
   <a href="https://microsoftedge.microsoft.com/addons/detail/tab-search-provider-for-g/pjidkdbbdemngigldodbdpkpggmgilnl/">
- <img src="https://getbadgecdn.azureedge.net/images/English_L.png" alt="Get for Edge" width="200"/>
+ <img src="https://get.microsoft.com/images/en-us%20light.svg" alt="Get for Edge" width="200"/>
  </a>
 </p>
  
@@ -29,9 +29,7 @@ Installl all 3 components for tab search to work
 Or from source
 ```
 cd shellextension
-yarn
-yarn build
-yarn extension:install
+make install
 ```
 
 ## Host connector
@@ -85,3 +83,9 @@ with ids of browser addons
 * Open browser
 * Start searching with `Super` key
   * Browser tabs(except active tabs) will appear in search results
+
+## Privacy
+#### Q: Does my browser know that I was searching for? 
+No, your search query isn't sent to browser. \
+When you start searching in gnome-shell, Host 'Connector' application will request browser list of all tabs regardless of query. \
+'Connector' will then filter tabs according to your search query.

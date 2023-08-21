@@ -1,3 +1,5 @@
+use std::io;
+
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 use zvariant::Type;
@@ -52,21 +54,18 @@ struct Response<T> {
     data: T,
 }
 
-fn read_vec_data<T: Serialize, R: DeserializeOwned + Serialize>(req: &Request<T>) -> Vec<R> {
-    if native_messaging::write_output(std::io::stdout(), &req).is_err() {
-        return vec![];
-    }
+fn read_vec_data<T: Serialize, R: DeserializeOwned + Serialize>(
+    req: &Request<T>,
+) -> io::Result<Vec<R>> {
+    native_messaging::write_output(std::io::stdout(), &req)?;
 
     let response =
         native_messaging::read_input::<Response<Vec<R>>, std::io::Stdin>(std::io::stdin());
 
-    match response {
-        Ok(response) => response.data,
-        Err(_) => vec![],
-    }
+    Ok(response?.data)
 }
 
-pub fn get_tabs() -> Vec<TabsResponseData> {
+pub fn get_tabs() -> io::Result<Vec<TabsResponseData>> {
     let req = Request::GET(RequestData::<String> {
         route: Routes::Tabs,
         data: None,
@@ -74,10 +73,10 @@ pub fn get_tabs() -> Vec<TabsResponseData> {
     read_vec_data(&req)
 }
 
-pub fn activate_tab(id: u64) {
+pub fn activate_tab(id: u64) -> io::Result<()> {
     let req = Request::POST(RequestData {
         route: Routes::Tab,
         data: Some(ActivateTabRequestData { id }),
     });
-    if native_messaging::write_output(std::io::stdout(), &req).is_err() {}
+    native_messaging::write_output(std::io::stdout(), &req)
 }

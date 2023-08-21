@@ -1,0 +1,33 @@
+env:
+  es2021: true
+  node: true
+extends:
+  - eslint:recommended
+parserOptions:
+  ecmaVersion: 13
+  sourceType: module
+root: true
+rules:
+  indent:
+    - error
+    - 4
+    - SwitchCase: 1
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - always
+  require-jsdoc: warn
+  lines-around-comment: error
+  lines-between-class-members:
+    - error
+    - always
+    - exceptAfterSingleLine: true
+overrides:
+  - files: "*.js"
+    rules:
+      no-unused-vars: off

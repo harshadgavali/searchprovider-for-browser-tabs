@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use event_listener::Event;
 use zbus::dbus_interface;
 use zvariant::{DeserializeDict, SerializeDict, TypeDict};
 
@@ -30,6 +31,8 @@ pub struct WebSearchProvider {
     pub name: String,
     gicon: String,
     tabs: HashMap<u64, TabsResponseData>,
+
+    pub shutdown: Event,
 }
 
 impl WebSearchProvider {
@@ -38,6 +41,7 @@ impl WebSearchProvider {
             name: name.into(),
             gicon: gicon.into(),
             tabs: HashMap::new(),
+            shutdown: Event::new(),
         }
     }
 
@@ -98,9 +102,19 @@ fn filter_tabs(tabs: Vec<&TabsResponseData>, terms: &[String], app_name: &str) -
 impl GnomeSearchProvider for WebSearchProvider {
     fn get_initial_result_set(&mut self, terms: Vec<String>) -> Vec<String> {
         self.tabs.clear();
-        for tab in communication::get_tabs() {
-            self.tabs.insert(tab.id, tab);
+
+        match communication::get_tabs() {
+            Ok(tabs) => {
+                for tab in tabs {
+                    self.tabs.insert(tab.id, tab);
+                }
+            }
+            Err(_) => {
+                self.shutdown.notify(1);
+                return vec![];
+            }
         }
+
         let tabs = self.tabs.values().collect();
         filter_tabs(tabs, &terms, self.name.as_str())
     }
@@ -129,8 +143,8 @@ impl GnomeSearchProvider for WebSearchProvider {
 
     fn activate_result(&self, tab_id: String, _terms: Vec<String>, _timestamp: u32) {
         if let Ok(id) = tab_id.parse() {
-            if self.tabs.contains_key(&id) {
-                communication::activate_tab(id);
+            if self.tabs.contains_key(&id) && communication::activate_tab(id).is_err() {
+                self.shutdown.notify(1);
             }
         }
     }

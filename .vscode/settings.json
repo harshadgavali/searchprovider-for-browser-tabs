@@ -10,4 +10,9 @@
     "typescript.preferences.importModuleSpecifierEnding": "js",
     "typescript.preferences.importModuleSpecifier": "relative",
     "javascript.preferences.importModuleSpecifier": "relative",
+    "eslint.workingDirectories": [
+        {
+            "mode": "auto"
+        }
+    ],
 }

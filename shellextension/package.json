@@ -4,30 +4,14 @@
   "source": "build/extension.js",
   "main": "dist/extension.js",
   "license": "MIT",
-  "scripts": {
-    "build": "rollup --config rollup.config.js",
-    "preextension:install": "gnome-extensions pack --force dist",
-    "extension:install": "gnome-extensions install --force *.shell-extension.zip"
-  },
   "devDependencies": {
+    "@gi-types/adw1": "^1.1.1",
     "@gi-types/base-types": "^1.0.0",
-    "@gi-types/clutter8": "^8.0.0",
-    "@gi-types/gio2": "^2.68.0",
-    "@gi-types/gjs-environment": "^1.0.0",
-    "@gi-types/glib2": "^2.68.0",
-    "@gi-types/gobject2": "^2.68.0",
-    "@gi-types/gtk4": "^4.2.0",
-    "@gi-types/meta8": "^8.0.0",
-    "@gi-types/shell0": "^0.1.0",
-    "@gi-types/st1": "^1.0.0",
-    "@rollup/plugin-typescript": "^8.3.0",
-    "@types/node": "^17.0.10",
-    "@typescript-eslint/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/parser": "^5.10.0",
-    "eslint": "^8.7.0",
-    "rollup": "^2.66.0",
-    "rollup-plugin-copy": "^3.4.0",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.2"
+    "@gi-types/shell0": "^0.1.1",
+    "@types/node": "^20.4.8",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "^8.46.0",
+    "typescript": "^5.1.6"
   }
 }
