@@ -1,111 +1,90 @@
-const { Shell, Gio } = imports.gi;
 
-const RemoteSearch = imports.ui.remoteSearch;
-const Util = imports.misc.util;
+import { Gio, Shell } from '../imports.js';
+import { DBusNameMonitor } from './dbusNameMonitor.js';
+import { stopDBusSearchServers } from './tabSearchUtils.js';
+import { DbusSearchProviderWrapper } from './searchController.js';
+import { DBUS_BASE_ID } from '../constants.js';
 
-const DOMAIN_NAME = 'com.github.harshadgavali';
-const BASE_ID = `${DOMAIN_NAME}.SearchProvider`;
-const BASE_PATH = `/${DOMAIN_NAME.replace(/\./g, '/')}/SearchProvider`;
 const SEARCH_PROVIDERS_SCHEMA = 'org.gnome.desktop.search-providers';
-const EXENAME = `${DOMAIN_NAME}.tabsearchproviderconnector`;
+const SEARCH_PROVIDERS_DISABLED_EXTENSIONS_SCHEMAKEY = 'disabled';
 
-export class WebBrowserTabSearchProvider extends RemoteSearch.RemoteSearchProvider2 {
-    constructor(appInfo: typeof Gio.DesktopAppInfo.prototype, dbusName: string, dbusPath: string, autoStart: boolean) {
-        super(appInfo, dbusName, dbusPath, autoStart);
+/**
+ * A class to manage search providers for one dbus server.
+ */
 
-        this.id = `tabsearchprovider.${dbusName}`;
-        this.isRemoteProvider = true;
-        this.canLaunchSearch = false;
-    }
-
-    override async getInitialResultSet(terms: string[], cancellable: typeof Gio.Cancellable.prototype) {
-        try {
-            const [results] = await this.proxy.GetInitialResultSetAsync(terms, cancellable);
-            return results;
-        }
-        catch (error) {
-            this._handleGioDbusError(error);
-            return [];
-        }
-    }
-
-    override async getSubsearchResultSet(previousResults: unknown[], newTerms: string[], cancellable: typeof Gio.Cancellable.prototype) {
-        try {
-            const [results] = await this.proxy.GetSubsearchResultSetAsync(previousResults, newTerms, cancellable);
-            return results;
-        }
-        catch (error) {
-            this._handleGioDbusError(error);
-            return [];
-        }
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private _handleGioDbusError(error: any) {
-        if (
-            !error?.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED) &&
-            !error?.matches(Gio.DBusError, Gio.DBusError.SERVICE_UNKNOWN)
-        ) {
-            log(`Received error from D-Bus search provider ${this.id}: ${error}`);
-        }
-    }
-}
-
-function getProvider(app: typeof Shell.App.prototype | undefined, appName: string) {
-    if (!app)
-        return;
-    const appInfo = app.get_app_info();
-    appInfo.get_description = () => `List of tabs open in ${appInfo}`;
-    appInfo.get_name = () => `${appName} Tabs`;
-
-    return new WebBrowserTabSearchProvider(
-        appInfo,
-        `${BASE_ID}.${appName}`,
-        `${BASE_PATH}/${appName}`,
-        true,
-    );
-}
-
+/**
+ * Sub-extension which will monitor dbus for servers
+ * When search server is online, register it with overview and arcmenu
+ */
 export class BrowserTabExtension implements ISubExtension {
-    private _searchSettings: typeof Gio.Settings.prototype;
-    private _appIds: { id: string, name: string }[];
-    private _loadRemoteSearchProviders: typeof RemoteSearch.loadRemoteSearchProviders;
+    private _dbusNameMonitor?: DBusNameMonitor;
+    private _dbusProviders = new Map<string, DbusSearchProviderWrapper>();
+    private _appSystem: Shell.AppSystem;
+    private _searchSettings: Gio.Settings;
 
     constructor() {
-        this._searchSettings = new Gio.Settings({ schema_id: SEARCH_PROVIDERS_SCHEMA });
-        this._loadRemoteSearchProviders = RemoteSearch.loadRemoteSearchProviders;
-        this._appIds = [
-            { id: 'firefox.desktop', name: 'Firefox' },
-            { id: 'microsoft-edge.desktop', name: 'Edge' },
-            { id: 'org.chromium.Chromium.desktop', name: 'Chromium' },
-        ];
-        this._appIds.reverse();
-
-        const appSystem = Shell.AppSystem.get_default();
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const extensionThis = this;
-
-        RemoteSearch.loadRemoteSearchProviders = function (searchSettings) {
-            const providers = extensionThis._loadRemoteSearchProviders(searchSettings);
-            extensionThis._appIds.forEach(app => {
-                const provider = getProvider(appSystem.lookup_app(app.id), app.name);
-                if (provider)
-                    providers.unshift(provider);
-            });
-            return providers;
-        };
-
-        this._reloadProviders();
+        this._appSystem = Shell.AppSystem.get_default();
+        this._searchSettings = new Gio.Settings({ schemaId: SEARCH_PROVIDERS_SCHEMA });
+        this._startDBusNameMonitor();
     }
 
-    destroy() {
-        RemoteSearch.loadRemoteSearchProviders = this._loadRemoteSearchProviders;
-        this._reloadProviders();
-        Util.spawn(['/usr/bin/killall', EXENAME]);
+    clear() {
+        this._dbusNameMonitor?.clear();
+        this._dbusNameMonitor = undefined;
+        this._dbusProviders.forEach((_, dbusName) => { this._onDbusNameRemoved(dbusName).catch(console.error); });
+        stopDBusSearchServers().catch(console.error);
     }
 
-    _reloadProviders() {
-        this._searchSettings.set_boolean('disable-external', true);
-        this._searchSettings.set_boolean('disable-external', false);
+    private _startDBusNameMonitor() {
+        if (this._dbusNameMonitor)
+            return;
+        this._dbusNameMonitor = new DBusNameMonitor(
+            DBUS_BASE_ID,
+            this._onDbusNameAdded.bind(this),
+            this._onDbusNameRemoved.bind(this)
+        );
+    }
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    private async _onDbusNameRemoved(dbusName: string) {
+        console.log(`${this._onDbusNameRemoved.name}(${dbusName})`);
+
+        this._dbusProviders.get(dbusName)?.clear();
+        this._dbusProviders.delete(dbusName);
+    }
+
+    private async _onDbusNameAdded(dbusName: string) {
+        console.log(`${this._onDbusNameAdded.name}(${dbusName})`);
+        if (this._dbusProviders.has(dbusName))
+            return;
+
+        const dbusPid = await this._dbusNameMonitor?.GetDBusServerPID(dbusName);
+        if (!dbusPid)
+            return;
+
+        const dbusProvider = await DbusSearchProviderWrapper.create(dbusName, dbusPid);
+        if (!dbusProvider)
+            return;
+
+        this._dbusProviders.set(dbusName, dbusProvider);
+        this._forceReloadRemoteProviders();
+    }
+
+    /**
+     * We want tabs search result to appear before other remote providers
+     * To force load remote providers, add empty string to list of disabled providers
+     * if empty string is already in the list, delete it instead
+     */
+    private _forceReloadRemoteProviders() {
+        const dummyId = '';
+        const disabledIds = this._searchSettings.get_strv(SEARCH_PROVIDERS_DISABLED_EXTENSIONS_SCHEMAKEY);
+
+        const emptyIndex = disabledIds.findIndex(id => id === dummyId);
+        if (emptyIndex === -1)
+            disabledIds.push(dummyId);
+        else
+            disabledIds.splice(emptyIndex, 1);
+
+        this._searchSettings.set_strv(SEARCH_PROVIDERS_DISABLED_EXTENSIONS_SCHEMAKEY, disabledIds);
     }
 }
