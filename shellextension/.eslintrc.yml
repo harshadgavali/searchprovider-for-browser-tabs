@@ -1,24 +1,29 @@
-env:
-  es2021: true
 extends:
+  - ./.eslintrc.dist.yml
+  - ./.eslintrc.imports.yml
   - eslint:recommended
-  - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/recommended-type-checked
+  - plugin:@typescript-eslint/strict-type-checked
 parser: "@typescript-eslint/parser"
 parserOptions:
+  project: "./tsconfig.json"
   ecmaVersion: 13
   sourceType: module
 plugins:
   - "@typescript-eslint"
 rules:
-  indent:
+  "@typescript-eslint/no-unused-vars":
     - error
-    - 4
-  linebreak-style:
+    - argsIgnorePattern: "^_"
+      varsIgnorePattern: "^_"
+  require-jsdoc:
     - error
-    - unix
-  quotes:
-    - error
-    - single
-  semi:
-    - error
-    - always
+    - require:
+        FunctionDeclaration: true
+        ClassDeclaration: true
+
+overrides:
+  - files: "*.d.ts"
+    rules:
+      no-restricted-imports: off
+      require-jsdoc: off

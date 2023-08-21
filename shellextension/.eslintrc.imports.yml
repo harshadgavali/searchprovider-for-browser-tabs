@@ -1,0 +1,11 @@
+rules:
+  no-restricted-imports:
+    - error
+    - patterns:
+        - group:
+            - resource:///org/gnome/shell/extensions/sharedInternals.js
+          message: Don't use internal modules.
+        - group:
+            - gi://
+            - resource://
+          message: Use 'imports.js' module instead.
