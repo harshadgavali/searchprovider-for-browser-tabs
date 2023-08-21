@@ -1,3 +1,4 @@
+use rand::Rng;
 use std::env::args;
 use zbus::{
     blocking::{fdo, Connection},
@@ -19,13 +20,16 @@ const COMMIT: Option<&str> = option_env!("GIT_HEAD_SHA");
 
 fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
     let app_id = format!(
-        "com.github.harshadgavali.SearchProvider.{}",
-        greeter.get_app_name()
+        "com.github.harshadgavali.SearchProvider.{}.RN{}",
+        greeter.get_app_name(),
+        rand::thread_rng().gen::<u16>(),
     );
     let app_path = format!(
         "/com/github/harshadgavali/SearchProvider/{}",
         greeter.get_app_name()
     );
+
+    let shutdown_listener = greeter.shutdown.listen();
 
     let connection = Connection::session()?;
     let dbus_proxy = fdo::DBusProxy::new(&connection)?;
@@ -35,9 +39,7 @@ fn start_dbus_server(greeter: WebSearchProvider) -> zbus::Result<()> {
         RequestNameFlags::AllowReplacement | RequestNameFlags::ReplaceExisting,
     )?;
 
-    if (dbus_proxy.receive_name_lost()?).next().is_some() {
-        return Ok(());
-    }
+    shutdown_listener.wait();
 
     Ok(())
 }
