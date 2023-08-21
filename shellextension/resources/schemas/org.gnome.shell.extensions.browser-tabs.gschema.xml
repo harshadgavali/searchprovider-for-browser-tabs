@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.browser-tabs" path="/org/gnome/shell/extensions/browser-tabs/">
+    <!-- See also: https://docs.gtk.org/glib/gvariant-format-strings.html -->
+    <key name="min-term-length" type="u">
+      <default>2</default>
+    </key>
+    <key name='exclude-forward-slash' type='b'>
+      <default>true</default>
+    </key>
+  </schema>
+</schemalist>

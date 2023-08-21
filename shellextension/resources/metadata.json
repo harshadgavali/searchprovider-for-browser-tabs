@@ -2,10 +2,10 @@
     "name": "Browser tabs",
     "description": "Search and switch to browser tabs using GNOME overview/ArcMenu\n\nSee following github link for installing necessary browser extension and host app!",
     "uuid": "browser-tabs@com.github.harshadgavali",
+    "settings-schema": "org.gnome.shell.extensions.browser-tabs",
     "shell-version": [
-        "43",
-        "44"
+        "45"
     ],
     "url": "https://github.com/harshadgavali/searchprovider-for-browser-tabs.git/",
-    "version": 5
+    "version": 7
 }
