@@ -1,18 +1,27 @@
 
-declare module 'resource:///org/gnome/shell/js/ui/remoteSearch.js' {
+declare module 'resource:///org/gnome/shell/ui/remoteSearch.js' {
     import Gio from 'gi://Gio';
+    import St from 'gi://St';
 
-    class RemoteSearchProvider2 {
-        constructor(appInfo: typeof Gio.DesktopAppInfo.prototype, dbusName: string, dbusPath: string, autoStart: boolean);
-        canLaunchSearch: boolean;
-        appInfo: Gio.DesktopAppInfo;
+    export interface IResultMeta {
         id: string;
-        isRemoteProvider: boolean;
-        proxy: Gio.DBusProxy;
-
-        getInitialResultSet(terms: string[], cancellable: Gio.Cancellable): Promise<unknown[]>;
-        getSubsearchResultSet(previousResults: unknown[], newTerms: string[], cancellable: Gio.Cancellable): Promise<unknown[]>;
+        name: string;
+        description: string;
+        createIcon: (size: number) => St.Icon;
     }
 
-    function loadRemoteSearchProviders(searchSettings: typeof Gio.Settings.prototype): RemoteSearchProvider2[];
+    export interface IRemoteSearchProvider2 {
+        id: string;
+        isRemoteProvider: boolean;
+        canLaunchSearch: boolean;
+        appInfo: Gio.DesktopAppInfo;
+
+        filterResults(results: string[], maxNumber: number): string[];
+
+        getInitialResultSet(terms: string[], cancellable: Gio.Cancellable): Promise<string[]>;
+        getSubsearchResultSet(previousResults: string[], newTerms: string[], cancellable: Gio.Cancellable): Promise<string[]>;
+        getResultMetas(ids: string[], cancellable: Gio.Cancellable): Promise<IResultMeta[]>;
+        activateResult(id: string, terms: string[]): void;
+        launchSearch(terms: string[]): void;
+    }
 }
